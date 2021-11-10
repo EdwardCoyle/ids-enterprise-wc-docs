@@ -1,0 +1,22 @@
+{
+  "name": "ids-enterprise-wc-docs",
+  "version": "0.0.15",
+  "description": "Documentation website that covers the IDS Web Components source code",
+  "main": "index.js",
+  "scripts": {
+    "start": "node \"index.js\" -- --mode=\"development\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ed Coyle (ed.coyle@infor.com)",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "ids-enterprise-wc": "0.0.0-beta.15"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2",
+    "documentation": "^13.2.5",
+    "eslint": "^8.2.0",
+    "glob": "^7.2.0"
+  }
+}
