@@ -14,8 +14,7 @@ import documentationBuilder from './src/build/docs.js';
 log('\n')
 log(`${chalk.bold('IDS Web Components Documentation Builder')}`)
 log(`${chalk.magenta(`[project path]`)}: ${projectPath}`)
-log(`${chalk.yellow(`[library path]`)}: ${libPath}`)
-log('\n')
+log(`${chalk.yellow(`[library path]`)}: ${libPath}\n`)
 
 async function getAndAnalyzeFiles(path) {
     const files = await getFiles(`${path}`)
