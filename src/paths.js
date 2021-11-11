@@ -21,12 +21,14 @@ const PATHS = {
     mixinsMD: path.join(libPath, 'src/mixins/**/*.md'),
     utils: path.join(libPath, 'src/utils'),
     utilsJS: path.join(libPath, 'src/utils/**/*.js'),
-    utilsMD: path.join(libPath, 'src/utils/**/*.md')
+    utilsMD: path.join(libPath, 'src/utils/**/*.md'),
+    testComponentJS: path.join(libPath, 'src/components/ids-tag/ids-tag.js')
 }
 
 // Util functions
-function truncatePath(path, part) {
-    return path.replace(part, `${chalk.yellow('[library path]')}/`)
+function truncatePath(path, part, raw) {
+    const replacementStr = raw ? '/' : `${chalk.yellow('[library path]')}/`
+    return path.replace(part, replacementStr)
 }
 
 export default PATHS;

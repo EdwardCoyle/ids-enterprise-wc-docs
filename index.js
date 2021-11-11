@@ -25,9 +25,13 @@ async function getAndAnalyzeFiles(path) {
 
 log(chalk.cyan('Analyzing library files...\n'))
 
+// @TODO: replace test component
+const componentJSFiles = await getAndAnalyzeFiles(PATHS.testComponentJS)
+/*
 const componentJSFiles = await getAndAnalyzeFiles(PATHS.componentsJS)
 const mixinJSFiles = await getAndAnalyzeFiles(PATHS.mixinsJS)
 const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS)
+*/
 
 // These tasks are to be completed before this script finishes
 const completionTasks = [];
