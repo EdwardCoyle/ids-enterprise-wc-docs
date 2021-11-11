@@ -31,7 +31,7 @@ async function writeMDFile(filePath, data) {
 /**
  * Uses the `documentation.js` library to convert IDS Source code to Markdown
  * @param {string} file the name of the file to convert
- * @returns {Promise<>} Promise, resolved when the file is written to disk, rejected otherwise
+ * @returns {Promise<string>} Promise, resolved with converted output when the file is written to disk, rejected otherwise
  */
 async function convertJSDocToMD(file) {
     const shortFileName = truncatePath(file, libPath, true).substring(0, file.lastIndexOf('.') || file.length);
@@ -60,7 +60,7 @@ async function convertJSDocToMD(file) {
 /**
  * Builds Markdown documentation from JSDoc comments inside of each file in the provided file list
  * @param {Array<string>} targetFiles a list of file paths to be scanned
- * @returns {Promise}
+ * @returns {Promise<Array<string>>} Resolved with converted file output(s) when all files provided are converted
  */
 async function documentationBuilder(targetFiles) {
     return new Promise((resolve) => {
