@@ -1,0 +1,12 @@
+{
+    "name": "ids-enterprise-wc-docs-theme",
+    "version": "0.0.15",
+    "description": "Theme for documentation.js for the Ids Enterprise Web Components documentation",
+    "main": "index.js",
+    "type": "commonjs",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Ed Coyle (ed.coyle@infor.com)",
+    "license": "ISC"
+}

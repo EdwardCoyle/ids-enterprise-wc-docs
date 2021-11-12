@@ -17,5 +17,7 @@ This system has the following dependencies:
 ## How to use
 
 - Clone this repository
-- `npm i && npm start`
-- After the script completes, see the `build/` folder for documentation output (currently only a single file builds)
+- `npm i`.  
+- Optionally `rm -rf node_modules/ids-enterprise-wc && npm link ids-enterprise-wc` to link a working, local copy of the IDS Web Components.
+- `npm start`. This will build and launch `live-server` pointed to the compiled documentation.
+- After launch, see the `build/` folder for documentation output (currently only a single file builds).

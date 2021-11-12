@@ -6,8 +6,11 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Paths
-const projectPath = path.resolve(__dirname, '..');
+const projectPath = path.resolve(__dirname, '..')
+const buildPath = path.join(projectPath, 'build')
 const libPath = path.join(projectPath, 'node_modules/ids-enterprise-wc/')
+const templatePath = path.join(projectPath, 'src/templates');
+
 const PATHS = {
     src: path.join(libPath, 'src'),
     output: path.join(projectPath, 'build'),
@@ -30,4 +33,4 @@ function truncatePath(path, part, raw) {
 }
 
 export default PATHS;
-export { projectPath, libPath, truncatePath }
+export { projectPath, buildPath, libPath, templatePath, truncatePath }

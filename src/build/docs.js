@@ -1,16 +1,10 @@
 import chalk from 'chalk';
 import documentation from 'documentation';
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
-import util from 'util';
 
 import log from '../log.js';
-import { libPath, projectPath, truncatePath } from '../paths.js';
-
-// Promisified versions of fs modules
-const exists = util.promisify(fs.exists);
-const mkdir = util.promisify(fs.mkdir);
-const writeFile = util.promisify(fs.writeFile);
+import { libPath, projectPath, buildPath, templatePath, truncatePath } from '../paths.js';
 
 /**
  * Writes an MD file to disk, accounting for missing folders
@@ -18,14 +12,16 @@ const writeFile = util.promisify(fs.writeFile);
  * @param {string} data
  * @returns {void}
  */
-async function writeMDFile(filePath, data) {
+async function writeDocs(filePath, data) {
     const outputDir = path.dirname(filePath);
-    const doesExist = await exists(outputDir);
-    if (!doesExist) {
-        await mkdir(outputDir, { recursive: true })
+
+    try {
+        await fs.access(outputDir);
+    } catch (e) {
+        await fs.mkdir(outputDir, { recursive: true })
     }
 
-    await writeFile(filePath, data, 'utf8')
+    await fs.writeFile(filePath, data, 'utf8')
 }
 
 /**
@@ -45,13 +41,13 @@ async function convertJSDocToHTML(file) {
             })
             .then(output => {
                 return documentation.formats.html(output, {
-                    theme: `${path.join(projectPath, 'src', 'views')}`
+                    theme: `${path.join(projectPath, 'src', 'templates')}`
                 });
             })
             .then(async (output) => {
                 const outputFile = `${path.join(projectPath, 'build', 'html', shortFileName)}.html`
                 try {
-                    await writeMDFile(outputFile, JSON.stringify(output));
+                    await writeDocs(outputFile, output);
                     resolve(output);
                 } catch (e) {
                     reject(e);
@@ -59,6 +55,16 @@ async function convertJSDocToHTML(file) {
             });
         }
     );
+}
+
+/**
+ * Copies assets from the Theme source folder to the build output
+ * @returns {Promise<>}
+ */
+async function copyAssets() {
+    const src = path.join(templatePath, 'assets')
+    const dest = path.join(buildPath, 'html/assets')
+    return fs.cp(src, dest, { recursive: true })
 }
 
 /**
@@ -70,12 +76,17 @@ async function documentationBuilder(targetFiles) {
     return new Promise((resolve) => {
         log(chalk.cyan('\nCompiling API documentation from JS Files...\n'))
 
-        const convertedFiles = [];
+        const buildTasks = [];
+
+        // Convert specified JS files to documented HTML pages
         targetFiles.forEach((file) => {
-            convertedFiles.push(convertJSDocToHTML(file));
+            buildTasks.push(convertJSDocToHTML(file));
         })
 
-        Promise.all(convertedFiles).then((values) => {
+        // Create an Index/Table of Contents
+        buildTasks.push(copyAssets());
+
+        Promise.all(buildTasks).then((values) => {
             log(chalk.bold(`Converted JSDoc comments from ${values.length} file(s)`));
             resolve(values);
         })
