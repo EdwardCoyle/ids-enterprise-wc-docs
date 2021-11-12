@@ -33,7 +33,7 @@ async function writeMDFile(filePath, data) {
  * @param {string} file the name of the file to convert
  * @returns {Promise<string>} Promise, resolved with converted output when the file is written to disk, rejected otherwise
  */
-async function convertJSDocToMD(file) {
+async function convertJSDocToHTML(file) {
     const shortFileName = truncatePath(file, libPath, true).substring(0, file.lastIndexOf('.') || file.length);
 
     return new Promise((resolve, reject) => {
@@ -43,11 +43,15 @@ async function convertJSDocToMD(file) {
                 extension: 'js',
                 shallow: true,
             })
-            .then(documentation.formats.md)
+            .then(output => {
+                return documentation.formats.html(output, {
+                    theme: `${path.join(projectPath, 'src', 'views')}`
+                });
+            })
             .then(async (output) => {
-                const outputFile = `${path.join(projectPath, 'build', 'md', shortFileName)}.md`
+                const outputFile = `${path.join(projectPath, 'build', 'html', shortFileName)}.html`
                 try {
-                    await writeMDFile(outputFile, output);
+                    await writeMDFile(outputFile, JSON.stringify(output));
                     resolve(output);
                 } catch (e) {
                     reject(e);
@@ -68,7 +72,7 @@ async function documentationBuilder(targetFiles) {
 
         const convertedFiles = [];
         targetFiles.forEach((file) => {
-            convertedFiles.push(convertJSDocToMD(file));
+            convertedFiles.push(convertJSDocToHTML(file));
         })
 
         Promise.all(convertedFiles).then((values) => {
