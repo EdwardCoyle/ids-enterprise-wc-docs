@@ -25,23 +25,21 @@ async function getAndAnalyzeFiles(path) {
 log(chalk.cyan('Analyzing library files...\n'))
 
 // @TODO: replace test component
-const componentJSFiles = await getAndAnalyzeFiles(PATHS.testComponentJS)
-/*
-const componentJSFiles = await getAndAnalyzeFiles(PATHS.componentsJS)
+const componentJSFiles = await getAndAnalyzeFiles(PATHS.testComponentsJS)
 const mixinJSFiles = await getAndAnalyzeFiles(PATHS.mixinsJS)
 const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS)
-*/
 
 // These tasks are to be completed before this script finishes
 const completionTasks = [];
 
 // Build API documentation from JS files, if found
-if (componentJSFiles.length) {
-    completionTasks.push(documentationBuilder(componentJSFiles));
-}
+completionTasks.push(documentationBuilder([...componentJSFiles, ...mixinJSFiles, ...utilsJSFiles]));
 
 Promise
     .all(completionTasks)
-    .then((...taskResults) => {
-        log(chalk.green('\nDONEZO'))
+    .then(() => {
+        log(chalk.green(`\nDocumentation Build is Complete!`))
+    })
+    .catch((err) => {
+        log(err.message);
     })

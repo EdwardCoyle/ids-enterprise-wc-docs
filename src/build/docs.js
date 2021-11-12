@@ -30,9 +30,11 @@ async function writeDocs(filePath, data) {
  * @returns {Promise<string>} Promise, resolved with converted output when the file is written to disk, rejected otherwise
  */
 async function convertJSDocToHTML(file) {
-    const shortFileName = truncatePath(file, libPath, true).substring(0, file.lastIndexOf('.') || file.length);
-
+    const shortFileName = truncatePath(file, libPath, true, true).substring(0, file.lastIndexOf('.') || file.length);
+    
     return new Promise((resolve, reject) => {
+        log(`converting JS file "${chalk.gray(shortFileName)}"...`)
+
         return documentation
             .build(file, {
                 babel: path.join(libPath, 'babel.config.js'),
@@ -40,12 +42,15 @@ async function convertJSDocToHTML(file) {
                 shallow: true,
             })
             .then(output => {
+                log(`formatting output from JS file "${chalk.magenta(shortFileName)}"...`)
                 return documentation.formats.html(output, {
                     theme: `${path.join(projectPath, 'src', 'templates')}`
                 });
             })
             .then(async (output) => {
                 const outputFile = `${path.join(projectPath, 'build', 'html', shortFileName)}.html`
+                const shortOutputFile = truncatePath(outputFile, projectPath, true)
+                log(`saving output as HTML file "${chalk.yellow(shortOutputFile)}"...`)
                 try {
                     await writeDocs(outputFile, output);
                     resolve(output);
@@ -86,10 +91,15 @@ async function documentationBuilder(targetFiles) {
         // Create an Index/Table of Contents
         buildTasks.push(copyAssets());
 
-        Promise.all(buildTasks).then((values) => {
-            log(chalk.bold(`Converted JSDoc comments from ${values.length} file(s)`));
-            resolve(values);
-        })
+        Promise
+            .all(buildTasks)
+            .then((values) => {
+                log(`${chalk.cyan('\nConverted JSDoc comments from')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('file(s)')}`);
+                resolve(values);
+            })
+            .catch((err) => {
+                log(err.message);
+            })
     })
 }
 
