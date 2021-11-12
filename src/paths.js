@@ -18,10 +18,10 @@ const PATHS = {
     componentsJS: path.join(libPath, 'src/components/**/*!(index).js'),
     componentsMD: path.join(libPath, 'src/components/**/*.md'),
     mixins: path.join(libPath, 'src/mixins'),
-    mixinsJS: path.join(libPath, 'src/mixins/**/*.js'),
+    mixinsJS: path.join(libPath, 'src/mixins/**/ids-*.js'),
     mixinsMD: path.join(libPath, 'src/mixins/**/*.md'),
     utils: path.join(libPath, 'src/utils'),
-    utilsJS: path.join(libPath, 'src/utils/**/*.js'),
+    utilsJS: path.join(libPath, 'src/utils/**/ids-*.js'),
     utilsMD: path.join(libPath, 'src/utils/**/*.md'),
 
     // Used for testing
