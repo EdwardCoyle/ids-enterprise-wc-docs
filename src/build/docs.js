@@ -8,7 +8,7 @@ import { libPath, projectPath, buildPath, templatePath, truncatePath } from '../
 
 /**
  * Writes an MD file to disk, accounting for missing folders
- * @param {string} filePath 
+ * @param {string} filePath
  * @param {string} data
  * @returns {void}
  */
@@ -31,20 +31,20 @@ async function writeDocs(filePath, data) {
  */
 async function convertJSDocToHTML(file) {
     const shortFileName = truncatePath(file, libPath, true, true).substring(0, file.lastIndexOf('.') || file.length);
-    
+
     return new Promise((resolve, reject) => {
         log(`converting JS file "${chalk.gray(shortFileName)}"...`)
 
         return documentation
-            .build(file, {
+            .build([file], {
                 babel: path.join(libPath, 'babel.config.js'),
-                extension: 'js',
+                // inferPrivate: '^#',
                 shallow: true,
             })
             .then(output => {
                 log(`formatting output from JS file "${chalk.magenta(shortFileName)}"...`)
                 return documentation.formats.html(output, {
-                    theme: `${path.join(projectPath, 'src', 'templates')}`
+                    theme: `${path.join(projectPath, 'src', 'templates', 'default')}`
                 });
             })
             .then(async (output) => {
@@ -67,7 +67,7 @@ async function convertJSDocToHTML(file) {
  * @returns {Promise<>}
  */
 async function copyAssets() {
-    const src = path.join(templatePath, 'assets')
+    const src = path.join(templatePath, 'default', 'assets')
     const dest = path.join(buildPath, 'html/assets')
     return fs.cp(src, dest, { recursive: true })
 }
