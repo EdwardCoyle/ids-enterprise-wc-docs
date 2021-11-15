@@ -1,0 +1,12 @@
+{
+    "name": "ids-jsdoc-theme",
+    "version": "0.0.15",
+    "description": "Theme for JSDoc3 used for documenting the Ids Enterprise Web Components",
+    "main": "publish.js",
+    "type": "commonjs",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Ed Coyle (ed.coyle@infor.com)",
+    "license": "ISC"
+}

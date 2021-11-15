@@ -1,0 +1,19 @@
+{
+    "source": {
+        "include": ["node_modules/ids-enterprise-wc/src"],
+        "includePattern": ".js$",
+        "excludePattern": "(node_modules/ids-enterprise-wc/node_modules)"
+    },
+    "plugins": [
+        "plugins/summarize"
+    ],
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true
+    },
+    "opts": {
+        "destination": "./build/",
+        "recurse": true,
+        "template": "src/themes/ids"
+    }
+}

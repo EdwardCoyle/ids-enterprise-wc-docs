@@ -5,7 +5,6 @@ module.exports = {
     },
     "extends": [
         "eslint:recommended",
-        "plugin:lodash-template/recommended-with-html"
     ],
     "parserOptions": {
         "ecmaVersion": 13,
