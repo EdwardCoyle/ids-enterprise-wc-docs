@@ -25,7 +25,7 @@ indent_size = 4
 [Makefile]
 indent_style = tab
 
-[*.{js,ts,css,sass,scss,html}]
+[*.{js,ts,css,sass,scss,html,tmpl}]
 indent_style = space
 indent_size = 2
 

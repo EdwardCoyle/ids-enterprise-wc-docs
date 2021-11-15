@@ -12,7 +12,8 @@
         "monospaceLinks": true
     },
     "opts": {
-        "destination": "./build/",
+        "destination": "build/",
+        "readme": "node_modules/ids-enterprise-wc/README.md",
         "recurse": true,
         "template": "src/themes/ids"
     }
