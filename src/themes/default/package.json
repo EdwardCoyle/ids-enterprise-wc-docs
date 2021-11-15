@@ -1,5 +1,5 @@
 {
-    "name": "ids-enterprise-wc-docs-theme",
+    "name": "ids-enterprise-wc-docs-default-theme",
     "version": "0.0.15",
     "description": "Theme for documentation.js for the Ids Enterprise Web Components documentation",
     "main": "index.js",

@@ -33,7 +33,7 @@ const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS)
 const completionTasks = [];
 
 // Build API documentation from JS files, if found
-completionTasks.push(documentationBuilder([...componentJSFiles, ...mixinJSFiles, ...utilsJSFiles]));
+completionTasks.push(documentationBuilder([...componentJSFiles, ...mixinJSFiles, ...utilsJSFiles], 'default'));
 
 Promise
     .all(completionTasks)

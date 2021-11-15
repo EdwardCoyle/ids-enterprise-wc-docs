@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename)
 const projectPath = path.resolve(__dirname, '..')
 const buildPath = path.join(projectPath, 'build')
 const libPath = path.join(projectPath, 'node_modules/ids-enterprise-wc/')
-const templatePath = path.join(projectPath, 'src/templates');
+const themesPath = path.join(projectPath, 'src/themes');
 
 const PATHS = {
     src: path.join(libPath, 'src'),
@@ -40,4 +40,4 @@ function truncatePath(path, part, raw, addSlash) {
 }
 
 export default PATHS;
-export { projectPath, buildPath, libPath, templatePath, truncatePath }
+export { projectPath, buildPath, libPath, themesPath, truncatePath }

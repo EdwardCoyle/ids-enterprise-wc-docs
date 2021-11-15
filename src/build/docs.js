@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import log from '../log.js';
-import { libPath, projectPath, buildPath, templatePath, truncatePath } from '../paths.js';
+import { libPath, projectPath, buildPath, themesPath, truncatePath } from '../paths.js';
 
 /**
  * Writes an MD file to disk, accounting for missing folders
@@ -29,7 +29,7 @@ async function writeDocs(filePath, data) {
  * @param {string} file the name of the file to convert
  * @returns {Promise<string>} Promise, resolved with converted output when the file is written to disk, rejected otherwise
  */
-async function convertJSDocToHTML(file) {
+async function convertJSDocToHTML(file, theme = 'default') {
     const shortFileName = truncatePath(file, libPath, true, true).substring(0, file.lastIndexOf('.') || file.length);
 
     return new Promise((resolve, reject) => {
@@ -44,7 +44,7 @@ async function convertJSDocToHTML(file) {
             .then(output => {
                 log(`formatting output from JS file "${chalk.magenta(shortFileName)}"...`)
                 return documentation.formats.html(output, {
-                    theme: `${path.join(projectPath, 'src', 'templates', 'default')}`
+                    theme: `${path.join(projectPath, 'src', 'themes', `${theme}`)}`
                 });
             })
             .then(async (output) => {
@@ -64,10 +64,11 @@ async function convertJSDocToHTML(file) {
 
 /**
  * Copies assets from the Theme source folder to the build output
+ * @param {string} theme defines the theme folder to search for assets
  * @returns {Promise<>}
  */
-async function copyAssets() {
-    const src = path.join(templatePath, 'default', 'assets')
+async function copyAssets(theme = 'default') {
+    const src = path.join(themesPath, `${theme}`, 'assets')
     const dest = path.join(buildPath, 'html/assets')
     return fs.cp(src, dest, { recursive: true })
 }
@@ -77,7 +78,7 @@ async function copyAssets() {
  * @param {Array<string>} targetFiles a list of file paths to be scanned
  * @returns {Promise<Array<string>>} Resolved with converted file output(s) when all files provided are converted
  */
-async function documentationBuilder(targetFiles) {
+async function documentationBuilder(targetFiles, theme) {
     return new Promise((resolve) => {
         log(chalk.cyan('\nCompiling API documentation from JS Files...\n'))
 
@@ -85,11 +86,11 @@ async function documentationBuilder(targetFiles) {
 
         // Convert specified JS files to documented HTML pages
         targetFiles.forEach((file) => {
-            buildTasks.push(convertJSDocToHTML(file));
+            buildTasks.push(convertJSDocToHTML(file, theme));
         })
 
         // Create an Index/Table of Contents
-        buildTasks.push(copyAssets());
+        buildTasks.push(copyAssets(theme));
 
         Promise
             .all(buildTasks)
