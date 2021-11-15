@@ -33,13 +33,20 @@ const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS)
 const completionTasks = [];
 
 // Build API documentation from JS files, if found
-completionTasks.push(documentationBuilder([...componentJSFiles, ...mixinJSFiles, ...utilsJSFiles], 'default'));
+// available formats: 'html', 'md'
+completionTasks.push(
+  documentationBuilder(
+    [...componentJSFiles, ...mixinJSFiles, ...utilsJSFiles],
+    'default',
+    'html'
+  )
+);
 
 Promise
-    .all(completionTasks)
-    .then(() => {
-        log(chalk.green(`\nDocumentation Build is Complete!`))
-    })
-    .catch((err) => {
-        log(err.message);
-    })
+  .all(completionTasks)
+  .then(() => {
+      log(chalk.green(`\nDocumentation Build is Complete!`))
+  })
+  .catch((err) => {
+      log(err.message);
+  })

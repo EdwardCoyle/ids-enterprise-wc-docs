@@ -29,28 +29,51 @@ async function writeDocs(filePath, data) {
  * @param {string} file the name of the file to convert
  * @returns {Promise<string>} Promise, resolved with converted output when the file is written to disk, rejected otherwise
  */
-async function convertJSDocToHTML(file, theme = 'default') {
+async function convertJSDoc(file, theme = 'default', format = 'html') {
     const shortFileName = truncatePath(file, libPath, true, true).substring(0, file.lastIndexOf('.') || file.length);
 
     return new Promise((resolve, reject) => {
         log(`converting JS file "${chalk.gray(shortFileName)}"...`)
 
         return documentation
+            // Translate comments from file
             .build([file], {
                 babel: path.join(libPath, 'babel.config.js'),
                 // inferPrivate: '^#',
                 shallow: true,
             })
+            // Output into themeable HTML
             .then(output => {
-                log(`formatting output from JS file "${chalk.magenta(shortFileName)}"...`)
-                return documentation.formats.html(output, {
+                if (format && format === 'html') {
+                  log(`formatting HTML output from JS file "${chalk.magenta(shortFileName)}"...`)
+                  return documentation.formats.html(output, {
                     theme: `${path.join(projectPath, 'src', 'themes', `${theme}`)}`
-                });
+                  });
+                } else {
+                  return output;
+                }
+            })
+            // Output into JSON
+            .then(output => {
+              if (format && format === 'json') {
+                return documentation.formats.json(output)
+              } else {
+                return output;
+              }
+            })
+            // Output into Markdown
+            .then(output => {
+              if (format && format === 'md') {
+                log(`formatting Markdown output from JS file "${chalk.keyword('orange')(shortFileName)}"...`)
+                return documentation.formats.md(output);
+              } else {
+                return output;
+              }
             })
             .then(async (output) => {
-                const outputFile = `${path.join(projectPath, 'build', 'html', shortFileName)}.html`
+                const outputFile = `${path.join(projectPath, 'build', format, shortFileName)}.${format}`
                 const shortOutputFile = truncatePath(outputFile, projectPath, true)
-                log(`saving output as HTML file "${chalk.yellow(shortOutputFile)}"...`)
+                log(`saving output as file "${chalk.yellow(shortOutputFile)}"...`)
                 try {
                     await writeDocs(outputFile, output);
                     resolve(output);
@@ -78,30 +101,32 @@ async function copyAssets(theme = 'default') {
  * @param {Array<string>} targetFiles a list of file paths to be scanned
  * @returns {Promise<Array<string>>} Resolved with converted file output(s) when all files provided are converted
  */
-async function documentationBuilder(targetFiles, theme) {
-    return new Promise((resolve) => {
-        log(chalk.cyan('\nCompiling API documentation from JS Files...\n'))
+async function documentationBuilder(targetFiles, theme, format = 'html') {
+  return new Promise((resolve) => {
+    log(chalk.cyan(`\nCompiling API documentation from JS Files in "${format}" format...\n`))
 
-        const buildTasks = [];
+    const buildTasks = [];
 
-        // Convert specified JS files to documented HTML pages
-        targetFiles.forEach((file) => {
-            buildTasks.push(convertJSDocToHTML(file, theme));
-        })
-
-        // Create an Index/Table of Contents
-        buildTasks.push(copyAssets(theme));
-
-        Promise
-            .all(buildTasks)
-            .then((values) => {
-                log(`${chalk.cyan('\nConverted JSDoc comments from')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('file(s)')}`);
-                resolve(values);
-            })
-            .catch((err) => {
-                log(err.message);
-            })
+    // Convert JS files to specified documentation format
+    targetFiles.forEach((file) => {
+      buildTasks.push(convertJSDoc(file, theme, format));
     })
+
+    // If building HTML-based documentation, copy web assets such as CSS and images
+    if (format === 'html') {
+      buildTasks.push(copyAssets(theme));
+    }
+
+    Promise
+      .all(buildTasks)
+      .then((values) => {
+          log(`${chalk.cyan('\nConverted JSDoc comments from')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('file(s)')}`);
+          resolve(values);
+      })
+      .catch((err) => {
+          log(err.message);
+      })
+  })
 }
 
 export default documentationBuilder;
