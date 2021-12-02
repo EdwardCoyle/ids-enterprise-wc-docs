@@ -593,6 +593,7 @@ exports.publish = (taffyData, opts, tutorials) => {
     // add template helpers
     view.find = find;
     view.linkto = linkto;
+    view.logger = logger;
     view.resolveAuthorLinks = resolveAuthorLinks;
     view.tutoriallink = tutoriallink;
     view.htmlsafe = htmlsafe;
@@ -651,6 +652,7 @@ exports.publish = (taffyData, opts, tutorials) => {
         }
 
         if (myMixins.length) {
+            debugger;
             generate(`Mixin: ${myMixins[0].name}`, myMixins, helper.longnameToUrl[longname]);
         }
 

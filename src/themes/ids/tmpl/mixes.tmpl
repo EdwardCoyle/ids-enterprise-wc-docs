@@ -1,0 +1,13 @@
+<?js
+var data = obj;
+var self = this;
+?>
+
+<dt class="mixes">Mixes In:</dt>
+<dd class="mixes"><ul>
+<?js data.mixes.forEach(function(a) { ?>
+    <li>
+      <?js= self.linkto(a, a) ?>
+    </li>
+<?js }); ?>
+</ul></dd>

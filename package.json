@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf \"build\"",
-    "build": "jsdoc -c jsdoc.json",
+    "build": "jsdoc --verbose -c jsdoc.json",
+    "build:debug": "node --inspect-brk ./node_modules/.bin/jsdoc --verbose -c jsdoc.json",
     "serve": "live-server \"build/\"",
     "start": "npm run build && npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1"
