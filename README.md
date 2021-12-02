@@ -21,9 +21,9 @@ This system has the following dependencies:
 1. Clone this repository
 1. In a terminal pointed to the project folder, use `npm i` to install dependencies.
 1. Run `npm link` to establish the executable `ids-docs`.
-1. Optionally `rm -rf node_modules/ids-enterprise-wc && npm link ids-enterprise-wc` to link a working, local copy of the IDS Web Components library.  If linking a local copy, make sure to build that project before the next step.
+1. Optionally `rm -rf node_modules/ids-enterprise-wc && npm link ids-enterprise-wc` to link a working, local copy of the IDS Web Components library.  If linking a local copy, make sure to build the contents of that project before the next step.
 1. `npm start`. This will build the documentation in MD format.
-1. See the `build/` folder for documentation output.
+1. See the `build/` folder for documentation output.  Build output will include both generated MD files from JSDoc comments, as well as copies of handwritten README.md files from each Web Component
 
 **TBD** Will be adding another optional step for bundling via ZIP file for deployment to a live site
 
