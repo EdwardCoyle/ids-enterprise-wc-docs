@@ -4,7 +4,7 @@ import PATHS, { projectPath, libPath, truncatePath } from './paths.js'
 import { getFiles } from './getFiles.js'
 import log from './log.js'
 
-import documentationBuilder from './build/docs.js';
+import documentationBuilder from './documentationBuilder.js';
 
 const FORMATS = ['md', 'json', 'html'];
 

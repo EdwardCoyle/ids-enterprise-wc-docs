@@ -4,9 +4,10 @@
   "description": "Documentation output tool that covers the IDS Web Components source code",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf \"build\"",
     "build:local": "ids-docs --format=html",
     "build:prod": "ids-docs",
+    "clean": "rimraf \"build\"",
+    "dev": "npm run clean && npm run build:local -- --verbose && npm run serve",
     "serve": "live-server \"build/html/\"",
     "start": "npm run clean && npm run build:prod"
   },

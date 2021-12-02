@@ -3,8 +3,8 @@ import documentation from 'documentation';
 import fs from 'fs/promises';
 import path from 'path';
 
-import log from '../log.js';
-import { libPath, projectPath, buildPath, themesPath, truncatePath } from '../paths.js';
+import log from './log.js';
+import { libPath, projectPath, buildPath, themesPath, truncatePath } from './paths.js';
 
 /**
  * Writes an MD file to disk, accounting for missing folders
