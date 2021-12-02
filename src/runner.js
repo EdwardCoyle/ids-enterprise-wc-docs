@@ -25,12 +25,12 @@ const docsRunner = async (format = FORMATS[0]) => {
     return files
   }
 
-  // =====
+  // ==============================
   // Analyze Files
 
   log(chalk.cyan('Analyzing library files...\n'))
 
-  // @TODO: replace test component
+  // @TODO: replace test component once infor-design/enterprise-wc#301 is resolved
   const componentJSFiles = await getAndAnalyzeFiles(PATHS.testComponentsJS)
   const mixinJSFiles = await getAndAnalyzeFiles(PATHS.mixinsJS)
   const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS)
@@ -45,7 +45,7 @@ const docsRunner = async (format = FORMATS[0]) => {
     utilsMDFiles = await getAndAnalyzeFiles(PATHS.utilsMD);
   }
 
-  // =====
+  // ==============================
   // Run Tasks
 
   // These tasks are to be completed before this script finishes
@@ -73,7 +73,7 @@ const docsRunner = async (format = FORMATS[0]) => {
     );
   }
 
-  // =====
+  // ==============================
   // Done
 
   return Promise

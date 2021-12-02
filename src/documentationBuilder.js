@@ -7,7 +7,7 @@ import log from './log.js';
 import { libPath, projectPath, buildPath, themesPath, truncatePath } from './paths.js';
 
 /**
- * Writes an MD file to disk, accounting for missing folders
+ * Writes a file to disk, accounting for missing folders
  * @param {string} filePath
  * @param {string} data
  * @returns {void}
@@ -25,7 +25,7 @@ async function writeDocs(filePath, data) {
 }
 
 /**
- * Uses the `documentation.js` library to convert IDS Source code to Markdown
+ * Uses the `documentation.js` library to transform IDS Source Code Comments into a specified format
  * @param {string} file the name of the file to convert
  * @returns {Promise<string>} Promise, resolved with converted output when the file is written to disk, rejected otherwise
  */
@@ -86,7 +86,9 @@ async function convertJSDoc(file, theme = 'default', format = 'html') {
 }
 
 /**
- * Copies assets from the Theme source folder to the build output
+ * Copies assets from the Theme source folder to the build output.
+ * This is only used when building HTML output
+ * (presumably that will be served locally from the `build/html` folder)
  * @param {string} theme defines the theme folder to search for assets
  * @returns {Promise<>}
  */
