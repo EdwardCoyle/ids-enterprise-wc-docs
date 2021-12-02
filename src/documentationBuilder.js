@@ -103,8 +103,6 @@ async function copyAssets(theme = 'default') {
  */
 async function documentationBuilder(targetFiles, theme, format = 'html') {
   return new Promise((resolve) => {
-    log(chalk.cyan(`\nCompiling API documentation from JS Files in "${format}" format...\n`))
-
     const buildTasks = [];
 
     // Convert JS files to specified documentation format
@@ -120,7 +118,7 @@ async function documentationBuilder(targetFiles, theme, format = 'html') {
     Promise
       .all(buildTasks)
       .then((values) => {
-          log(`${chalk.cyan('\nConverted JSDoc comments from')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('file(s)')}`);
+          log(`${chalk.cyan('Converted JSDoc comments from')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('file(s)')}`);
           resolve(values);
       })
       .catch((err) => {

@@ -16,13 +16,13 @@ const PATHS = {
     output: path.join(projectPath, 'build'),
     components: path.join(libPath, 'src/components/'),
     componentsJS: path.join(libPath, 'src/components/**/*!(index).js'),
-    componentsMD: path.join(libPath, 'src/components/**/*.md'),
+    componentsMD: path.join(libPath, 'src/components/**/readme.md'),
     mixins: path.join(libPath, 'src/mixins'),
     mixinsJS: path.join(libPath, 'src/mixins/**/ids-*.js'),
-    mixinsMD: path.join(libPath, 'src/mixins/**/*.md'),
+    mixinsMD: path.join(libPath, 'src/mixins/**/readme.md'),
     utils: path.join(libPath, 'src/utils'),
     utilsJS: path.join(libPath, 'src/utils/**/ids-*.js'),
-    utilsMD: path.join(libPath, 'src/utils/**/*.md'),
+    utilsMD: path.join(libPath, 'src/utils/**/readme.md'),
 
     // Used for testing
     // Need to ignore culture files and any non-component-related JS.

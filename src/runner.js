@@ -5,6 +5,7 @@ import { getFiles } from './getFiles.js'
 import log from './log.js'
 
 import documentationBuilder from './documentationBuilder.js';
+import readmeCopier from './readmeCopier.js';
 
 const FORMATS = ['md', 'json', 'html'];
 
@@ -13,15 +14,19 @@ const FORMATS = ['md', 'json', 'html'];
 // ====================================================
 
 const docsRunner = async (format = FORMATS[0]) => {
-  log('\n')
-  log(`${chalk.magenta(`[project path]`)}: ${projectPath}`)
+  const doReadmeCopy = format === 'md';
+
+  log(`\n${chalk.magenta(`[project path]`)}: ${projectPath}`)
   log(`${chalk.yellow(`[library path]`)}: ${libPath}\n`)
 
   async function getAndAnalyzeFiles(path) {
     const files = await getFiles(`${path}`)
-    log(`${truncatePath(path, libPath)}: ${chalk.bold(`${files.length} file(s) found`)}`)
+    log(`${truncatePath(path, libPath, false, true)}: ${chalk.bold(`${files.length} file(s) found`)}`)
     return files
   }
+
+  // =====
+  // Analyze Files
 
   log(chalk.cyan('Analyzing library files...\n'))
 
@@ -30,8 +35,23 @@ const docsRunner = async (format = FORMATS[0]) => {
   const mixinJSFiles = await getAndAnalyzeFiles(PATHS.mixinsJS)
   const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS)
 
+  let componentMDFiles;
+  let mixinMDFiles;
+  let utilsMDFiles;
+
+  if (doReadmeCopy) {
+    componentMDFiles = await getAndAnalyzeFiles(PATHS.componentsMD);
+    mixinMDFiles = await getAndAnalyzeFiles(PATHS.mixinsMD);
+    utilsMDFiles = await getAndAnalyzeFiles(PATHS.utilsMD);
+  }
+
+  // =====
+  // Run Tasks
+
   // These tasks are to be completed before this script finishes
   const completionTasks = [];
+
+  log(chalk.cyan(`\nCompiling documentation from JS Files into "${format}" format...\n`))
 
   // Build API documentation from JS files, if found
   // available formats: 'html', 'md', 'json'
@@ -42,6 +62,19 @@ const docsRunner = async (format = FORMATS[0]) => {
       format
     )
   );
+
+  // Copy handwritten README.md files from the Web Components source code
+  // ONLY do this when building Markdown for production
+  if (doReadmeCopy) {
+    completionTasks.push(
+      readmeCopier(
+        [...componentMDFiles, ...mixinMDFiles, ...utilsMDFiles]
+      )
+    );
+  }
+
+  // =====
+  // Done
 
   return Promise
     .all(completionTasks)
