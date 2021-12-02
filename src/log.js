@@ -1,9 +1,12 @@
-import prod from './prod.js';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
-function log(str) {
-    if (prod) {
-        console.log(str);
-    }
+const { argv } = yargs(hideBin(process.argv));
+
+function log(str, type = 'log') {
+  if (argv.verbose) {
+    console[type](str);
+  }
 }
 
 export default log;

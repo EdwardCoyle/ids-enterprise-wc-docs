@@ -2,7 +2,7 @@
 
 This package creates documentation based on the source code of the [IDS Enterprise Web Components Library](https://github.com/infor-design/enterprise-wc).  Included in this documentation will be:
 
-- [ ] API documentation generated from the source code
+- [x] API documentation generated from the source code
 - [ ] An interactive visual diagram of class hierarchy within each provided Web Component
 - [ ] Links to the source code on Github for each provided Web Component
 - [ ] Links to live examples of the component/mixin/util
@@ -16,8 +16,27 @@ This system has the following dependencies:
 
 ## How to use
 
-- Clone this repository
-- `npm i`.  
-- Optionally `rm -rf node_modules/ids-enterprise-wc && npm link ids-enterprise-wc` to link a working, local copy of the IDS Web Components library.  If linking a local copy, make sure to build that project before the next step.
-- `npm start`. This will build and launch `live-server` pointed to the compiled documentation.
-- After launch, see the `build/` folder for documentation output.  All component docs build, but there is currently no index or table-of-contents page.
+### Build documentation for production
+
+1. Clone this repository
+1. In a terminal pointed to the project folder, use `npm i` to install dependencies.
+1. Run `npm link` to establish the executable `ids-docs`.
+1. Optionally `rm -rf node_modules/ids-enterprise-wc && npm link ids-enterprise-wc` to link a working, local copy of the IDS Web Components library.  If linking a local copy, make sure to build that project before the next step.
+1. `npm start`. This will build the documentation in MD format.
+1. See the `build/` folder for documentation output.
+
+**TBD** Will be adding another optional step for bundling via ZIP file for deployment to a live site
+
+### View documentation locally
+
+To see local HTML output of the documentation, do the following:
+
+1. If a previous build exists, use `npm run clean` to remove it
+1. Use `npm run build:local` to run a local build of the docs in HTML format
+1. After launch, see the `build/` folder for documentation output.  All component docs build, but there is currently no index or table-of-contents page.
+1. To browse HTML output, optionally run `npm run serve` to launch [Live Server](https://github.com/tapio/live-server) in the build output folder.
+
+### JSON
+
+It's possible to get a JSON representation of JSDoc comments by using `ids-docs --format=json`
+
