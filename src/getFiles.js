@@ -13,4 +13,4 @@ async function getFiles(path) {
   });
 }
 
-export { getFiles }
+export { getFiles };

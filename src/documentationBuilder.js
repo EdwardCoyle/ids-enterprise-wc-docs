@@ -13,15 +13,15 @@ import { libPath, projectPath, buildPath, themesPath, truncatePath } from './pat
  * @returns {void}
  */
 async function writeDocs(filePath, data) {
-    const outputDir = path.dirname(filePath);
+  const outputDir = path.dirname(filePath);
 
-    try {
-        await fs.access(outputDir);
-    } catch (e) {
-        await fs.mkdir(outputDir, { recursive: true })
-    }
+  try {
+    await fs.access(outputDir);
+  } catch (e) {
+    await fs.mkdir(outputDir, { recursive: true });
+  }
 
-    await fs.writeFile(filePath, data, 'utf8')
+  await fs.writeFile(filePath, data, 'utf8');
 }
 
 /**
@@ -30,59 +30,59 @@ async function writeDocs(filePath, data) {
  * @returns {Promise<string>} Promise, resolved with converted output when the file is written to disk, rejected otherwise
  */
 async function convertJSDoc(file, theme = 'default', format = 'html') {
-    const shortFileName = truncatePath(file, libPath, true, true).substring(0, file.lastIndexOf('.') || file.length);
+  const shortFileName = truncatePath(file, libPath, true, true).substring(0, file.lastIndexOf('.') || file.length);
 
-    return new Promise((resolve, reject) => {
-        log(`converting JS file "${chalk.gray(shortFileName)}"...`)
+  return new Promise((resolve, reject) => {
+    log(`converting JS file "${chalk.gray(shortFileName)}"...`);
 
-        return documentation
-            // Translate comments from file
-            .build([file], {
-                babel: path.join(libPath, 'babel.config.js'),
-                // inferPrivate: '^#',
-                shallow: true,
-            })
-            // Output into themeable HTML
-            .then(output => {
-                if (format && format === 'html') {
-                  log(`formatting HTML output from JS file "${chalk.magenta(shortFileName)}"...`)
-                  return documentation.formats.html(output, {
-                    theme: `${path.join(projectPath, 'src', 'themes', `${theme}`)}`
-                  });
-                } else {
-                  return output;
-                }
-            })
-            // Output into JSON
-            .then(output => {
-              if (format && format === 'json') {
-                return documentation.formats.json(output)
-              } else {
-                return output;
-              }
-            })
-            // Output into Markdown
-            .then(output => {
-              if (format && format === 'md') {
-                log(`formatting Markdown output from JS file "${chalk.keyword('orange')(shortFileName)}"...`)
-                return documentation.formats.md(output);
-              } else {
-                return output;
-              }
-            })
-            .then(async (output) => {
-                const outputFile = `${path.join(projectPath, 'build', format, shortFileName)}.${format}`
-                const shortOutputFile = truncatePath(outputFile, projectPath, true)
-                log(`saving output as file "${chalk.yellow(shortOutputFile)}"...`)
-                try {
-                    await writeDocs(outputFile, output);
-                    resolve(output);
-                } catch (e) {
-                    reject(e);
-                }
-            });
+    return documentation
+      // Translate comments from file
+      .build([file], {
+        babel: path.join(libPath, 'babel.config.js'),
+        // inferPrivate: '^#',
+        shallow: true,
+      })
+      // Output into themeable HTML
+      .then(output => {
+        if (format && format === 'html') {
+          log(`formatting HTML output from JS file "${chalk.magenta(shortFileName)}"...`)
+          return documentation.formats.html(output, {
+            theme: `${path.join(projectPath, 'src', 'themes', `${theme}`)}`
+          });
+        } else {
+          return output;
         }
-    );
+      })
+      // Output into JSON
+      .then(output => {
+        if (format && format === 'json') {
+          return documentation.formats.json(output)
+        } else {
+          return output;
+        }
+      })
+      // Output into Markdown
+      .then(output => {
+        if (format && format === 'md') {
+          log(`formatting Markdown output from JS file "${chalk.keyword('orange')(shortFileName)}"...`)
+          return documentation.formats.md(output);
+        } else {
+          return output;
+        }
+      })
+      .then(async (output) => {
+        const outputFile = `${path.join(projectPath, 'build', format, shortFileName)}.${format}`;
+        const shortOutputFile = truncatePath(outputFile, projectPath, true);
+        log(`saving output as file "${chalk.yellow(shortOutputFile)}"...`);
+        try {
+            await writeDocs(outputFile, output);
+            resolve(output);
+        } catch (e) {
+            reject(e);
+        }
+      });
+    }
+  );
 }
 
 /**
@@ -93,9 +93,9 @@ async function convertJSDoc(file, theme = 'default', format = 'html') {
  * @returns {Promise<>}
  */
 async function copyAssets(theme = 'default') {
-    const src = path.join(themesPath, `${theme}`, 'assets')
-    const dest = path.join(buildPath, 'html/assets')
-    return fs.cp(src, dest, { recursive: true })
+  const src = path.join(themesPath, `${theme}`, 'assets');
+  const dest = path.join(buildPath, 'html/assets');
+  return fs.cp(src, dest, { recursive: true });
 }
 
 /**
@@ -120,7 +120,7 @@ export default async function documentationBuilder(targetFiles, theme, format = 
     Promise
       .all(buildTasks)
       .then((values) => {
-          log(`${chalk.cyan('Converted JSDoc comments from')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('file(s)')}`);
+        log(`${chalk.cyan('Converted JSDoc comments from')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('file(s)')}`, 'log', true);
           resolve(values);
       })
       .catch((err) => {

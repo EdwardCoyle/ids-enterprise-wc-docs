@@ -26,7 +26,7 @@ export default async function zip(targetPath, outputFile, doCompress = true) {
   // Compression can be toggled by CLI flags.
   // We want to escape if the user has compression disabled.
   if (!doCompress) {
-    log(chalk.cyan(`\nSkipping ZIP compression`));
+    log(chalk.cyan(`\nSkipping ZIP compression`), 'log', true);
     return Promise.resolve(doCompress);
   }
 
@@ -44,7 +44,7 @@ export default async function zip(targetPath, outputFile, doCompress = true) {
       .pipe(stream);
 
     stream.on('close', () => {
-      log(chalk.cyan(`\nCompressed generated files to ${chalk.bold(outputFile)}`));
+      log(chalk.cyan(`\nCompressed generated files to ${chalk.bold(outputFile)}`), 'log', true);
       return resolve(true);
     });
     archive.finalize();

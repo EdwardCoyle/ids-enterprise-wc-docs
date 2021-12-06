@@ -10,12 +10,12 @@ import log from './src/log.js';
 // Main CLI Task
 // ====================================================
 
-log(`${chalk.bold('\nIDS Web Components Documentation Builder')}`)
+log(`${chalk.bold('\nIDS Web Components Documentation Builder')}`, 'log', true);
 
 yargs(hideBin(process.argv))
   .usage('Usage: $0 [options]')
   .command('*', 'outputs documentation in a specified format', (yargs) => { return yargs; }, async (argv) => {
-    docsRunner(argv.format, argv.compress)
+    docsRunner(argv.format, argv.compress);
   })
   .option('compress', {
     alias: 'c',
@@ -36,4 +36,4 @@ yargs(hideBin(process.argv))
   .recommendCommands()
   .showHelpOnFail(true)
   .help()
-  .parse()
+  .parse();

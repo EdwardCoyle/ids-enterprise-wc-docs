@@ -31,7 +31,7 @@ export default async function readmeCopier(targetFiles) {
     Promise
       .all(buildTasks)
       .then((values) => {
-        log(`${chalk.cyan('Copied')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('README file(s)')}`);
+        log(`${chalk.cyan('Copied')} ${chalk.cyan.bold(targetFiles.length)} ${chalk.cyan('README file(s)')}`, 'log', true);
         resolve(values);
       })
       .catch((err) => {

@@ -1,8 +1,8 @@
-import chalk from 'chalk'
+import chalk from 'chalk';
 
-import PATHS, { projectPath, libPath, truncatePath } from './paths.js'
-import { getFiles } from './getFiles.js'
-import log from './log.js'
+import PATHS, { projectPath, libPath, truncatePath } from './paths.js';
+import { getFiles } from './getFiles.js';
+import log from './log.js';
 
 import documentationBuilder from './documentationBuilder.js';
 import readmeCopier from './readmeCopier.js';
@@ -17,24 +17,24 @@ const FORMATS = ['md', 'json', 'html'];
 const docsRunner = async (format = FORMATS[0], doCompress = false) => {
   const doReadmeCopy = format === 'md';
 
-  log(`\n${chalk.magenta(`[project path]`)}: ${projectPath}`)
-  log(`${chalk.yellow(`[library path]`)}: ${libPath}\n`)
+  log(`\n${chalk.magenta(`[project path]`)}: ${projectPath}`);
+  log(`${chalk.yellow(`[library path]`)}: ${libPath}`);
 
   async function getAndAnalyzeFiles(path) {
-    const files = await getFiles(`${path}`)
-    log(`${truncatePath(path, libPath, false, true)}: ${chalk.bold(`${files.length} file(s) found`)}`)
-    return files
+    const files = await getFiles(`${path}`);
+    log(`${truncatePath(path, libPath, false, true)}: ${chalk.bold(`${files.length} file(s) found`)}`);
+    return files;
   }
 
   // ==============================
   // Analyze Files
 
-  log(chalk.cyan('Analyzing library files...\n'))
+  log(chalk.cyan('\nAnalyzing library files...'), 'log', true);
 
   // @TODO: replace test component once infor-design/enterprise-wc#301 is resolved
-  const componentJSFiles = await getAndAnalyzeFiles(PATHS.testComponentsJS)
-  const mixinJSFiles = await getAndAnalyzeFiles(PATHS.mixinsJS)
-  const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS)
+  const componentJSFiles = await getAndAnalyzeFiles(PATHS.testComponentsJS);
+  const mixinJSFiles = await getAndAnalyzeFiles(PATHS.mixinsJS);
+  const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS);
 
   let componentMDFiles;
   let mixinMDFiles;
@@ -52,7 +52,7 @@ const docsRunner = async (format = FORMATS[0], doCompress = false) => {
   // These tasks are to be completed before this script finishes
   const completionTasks = [];
 
-  log(chalk.cyan(`\nCompiling documentation from JS Files into "${format}" format...\n`))
+  log(chalk.cyan(`\nCompiling documentation from JS Files into "${format}" format...`), 'log', true);
 
   // Build API documentation from JS files, if found
   // available formats: 'html', 'md', 'json'
@@ -81,10 +81,10 @@ const docsRunner = async (format = FORMATS[0], doCompress = false) => {
     .all(completionTasks)
     .then(() => zip(PATHS.output, PATHS.outputZip, doCompress))
     .then(() => {
-      log(chalk.green(`\nDocumentation Build is Complete!`))
+      log(chalk.green(`\nDocumentation Build is Complete!`), 'log', true);
     })
     .catch((err) => {
-      log(chalk.red(err.message), 'trace')
+      log(chalk.red(err.message), 'trace');
     })
 }
 
