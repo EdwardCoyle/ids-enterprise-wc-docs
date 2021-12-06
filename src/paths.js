@@ -14,6 +14,7 @@ const themesPath = path.join(projectPath, 'src/themes');
 const PATHS = {
     src: path.join(libPath, 'src'),
     output: path.join(projectPath, 'build'),
+    outputZip: path.join(projectPath, 'build/ids-docs.zip'),
     components: path.join(libPath, 'src/components/'),
     componentsJS: path.join(libPath, 'src/components/**/*!(index).js'),
     componentsMD: path.join(libPath, 'src/components/**/readme.md'),

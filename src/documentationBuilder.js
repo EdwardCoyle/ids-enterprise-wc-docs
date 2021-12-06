@@ -103,7 +103,7 @@ async function copyAssets(theme = 'default') {
  * @param {Array<string>} targetFiles a list of file paths to be scanned
  * @returns {Promise<Array<string>>} Resolved with converted file output(s) when all files provided are converted
  */
-async function documentationBuilder(targetFiles, theme, format = 'html') {
+export default async function documentationBuilder(targetFiles, theme, format = 'html') {
   return new Promise((resolve) => {
     const buildTasks = [];
 
@@ -128,5 +128,3 @@ async function documentationBuilder(targetFiles, theme, format = 'html') {
       })
   })
 }
-
-export default documentationBuilder;

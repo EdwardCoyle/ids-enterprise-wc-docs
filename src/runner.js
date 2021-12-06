@@ -6,6 +6,7 @@ import log from './log.js'
 
 import documentationBuilder from './documentationBuilder.js';
 import readmeCopier from './readmeCopier.js';
+import zip from './zip.js';
 
 const FORMATS = ['md', 'json', 'html'];
 
@@ -13,7 +14,7 @@ const FORMATS = ['md', 'json', 'html'];
 // Main Build Task
 // ====================================================
 
-const docsRunner = async (format = FORMATS[0]) => {
+const docsRunner = async (format = FORMATS[0], doCompress = false) => {
   const doReadmeCopy = format === 'md';
 
   log(`\n${chalk.magenta(`[project path]`)}: ${projectPath}`)
@@ -78,11 +79,12 @@ const docsRunner = async (format = FORMATS[0]) => {
 
   return Promise
     .all(completionTasks)
+    .then(() => zip(PATHS.output, PATHS.outputZip, doCompress))
     .then(() => {
       log(chalk.green(`\nDocumentation Build is Complete!`))
     })
     .catch((err) => {
-      log(err.message);
+      log(chalk.red(err.message), 'trace')
     })
 }
 

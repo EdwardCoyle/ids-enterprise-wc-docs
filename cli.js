@@ -15,7 +15,12 @@ log(`${chalk.bold('\nIDS Web Components Documentation Builder')}`)
 yargs(hideBin(process.argv))
   .usage('Usage: $0 [options]')
   .command('*', 'outputs documentation in a specified format', (yargs) => { return yargs; }, async (argv) => {
-    docsRunner(argv.format)
+    docsRunner(argv.format, argv.compress)
+  })
+  .option('compress', {
+    alias: 'c',
+    type: 'boolean',
+    description: 'Create a zip file containing the generated docs'
   })
   .option('verbose', {
     alias: 'v',

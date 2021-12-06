@@ -19,7 +19,7 @@ async function copyReadme(file) {
  * @param {Array<string>} targetFiles a list of file paths to be scanned
  * @returns {Promise<Array<string>>} Resolved with converted file output(s) when all files provided are converted
  */
-async function readmeCopier(targetFiles) {
+export default async function readmeCopier(targetFiles) {
   return new Promise((resolve) => {
     const buildTasks = [];
 
@@ -39,5 +39,3 @@ async function readmeCopier(targetFiles) {
       })
   })
 }
-
-export default readmeCopier;
