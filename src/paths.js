@@ -15,22 +15,12 @@ const PATHS = {
   src: path.join(libPath, 'src'),
   output: path.join(projectPath, 'build'),
   outputZip: path.join(projectPath, 'build/ids-docs.zip'),
-  components: path.join(libPath, 'src/components/'),
-  componentsJS: path.join(libPath, 'src/components/**/*!(index|base).js'),
+  builtJS: path.join(libPath, 'build/development/**/ids-*.js'),
   componentsMD: path.join(libPath, 'src/components/**/readme.md'),
   mixins: path.join(libPath, 'src/mixins'),
-  mixinsJS: path.join(libPath, 'src/mixins/**/ids-*.js'),
   mixinsMD: path.join(libPath, 'src/mixins/**/readme.md'),
   utils: path.join(libPath, 'src/utils'),
-  utilsJS: path.join(libPath, 'src/utils/**/ids-*.js'),
   utilsMD: path.join(libPath, 'src/utils/**/readme.md'),
-
-  // Used for testing
-  // Need to ignore culture files and any non-component-related JS.
-  // @TODO: make this pull in everything but index files once we resolve this issue:
-  // SyntaxError: Using the export keyword between a decorator and a class is not allowed. Please use `export @dec class` instead. (35:0)
-  // being caused by having `export default class [whatever] immediately after a decorator`
-  testComponentsJS: path.join(libPath, 'src/components/**/ids-!(draggable*|loading-indicator*|pager*|spinbox|*base).js'),
 }
 
 // Util functions

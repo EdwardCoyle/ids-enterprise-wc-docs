@@ -31,11 +31,7 @@ const docsRunner = async (format = FORMATS[0], doCompress = false) => {
 
   log(chalk.cyan('\nAnalyzing library files...'), 'log', true);
 
-  // @TODO: replace test component once infor-design/enterprise-wc#301 is resolved
-  const componentJSFiles = await getAndAnalyzeFiles(PATHS.testComponentsJS);
-  const mixinJSFiles = await getAndAnalyzeFiles(PATHS.mixinsJS);
-  const utilsJSFiles = await getAndAnalyzeFiles(PATHS.utilsJS);
-
+  const builtJSFiles = await getAndAnalyzeFiles(PATHS.builtJS);
   let componentMDFiles;
   let mixinMDFiles;
   let utilsMDFiles;
@@ -58,7 +54,7 @@ const docsRunner = async (format = FORMATS[0], doCompress = false) => {
   // available formats: 'html', 'md', 'json'
   completionTasks.push(
     documentationBuilder(
-      [...componentJSFiles, ...mixinJSFiles, ...utilsJSFiles],
+      [...builtJSFiles],
       'default',
       format
     )
