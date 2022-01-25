@@ -1,6 +1,6 @@
 {
   "name": "ids-enterprise-wc-docs",
-  "version": "0.0.15",
+  "version": "0.0.0-beta.17",
   "description": "Documentation output tool that covers the IDS Web Components source code",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "ids-docs": "./cli.js"
   },
   "dependencies": {
-    "ids-enterprise-wc": "0.0.0-beta.15"
+    "ids-enterprise-wc": "infor-design/enterprise-wc#main"
   },
   "devDependencies": {
     "archiver": "^5.3.0",
