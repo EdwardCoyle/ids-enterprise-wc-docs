@@ -16,7 +16,7 @@ const PATHS = {
   output: path.join(projectPath, 'build'),
   outputZip: path.join(projectPath, 'build/ids-docs.zip'),
   components: path.join(libPath, 'src/components/'),
-  componentsJS: path.join(libPath, 'src/components/**/*!(index).js'),
+  componentsJS: path.join(libPath, 'src/components/**/*!(index|base).js'),
   componentsMD: path.join(libPath, 'src/components/**/readme.md'),
   mixins: path.join(libPath, 'src/mixins'),
   mixinsJS: path.join(libPath, 'src/mixins/**/ids-*.js'),
@@ -30,7 +30,7 @@ const PATHS = {
   // @TODO: make this pull in everything but index files once we resolve this issue:
   // SyntaxError: Using the export keyword between a decorator and a class is not allowed. Please use `export @dec class` instead. (35:0)
   // being caused by having `export default class [whatever] immediately after a decorator`
-  testComponentsJS: path.join(libPath, 'src/components/**/ids-!(draggable*|loading-indicator*|pager*|spinbox*).js'),
+  testComponentsJS: path.join(libPath, 'src/components/**/ids-!(draggable*|loading-indicator*|pager*|spinbox|*base).js'),
 }
 
 // Util functions
